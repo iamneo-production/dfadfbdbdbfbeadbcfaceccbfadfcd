@@ -1,23 +1,29 @@
 <form [formGroup]="CurrencyForm" (ngSubmit)="onSubmitt()">
-  Source CCY
-  <select formControlName="fromCurrency" id="fromCurrency">
-    <option value="USD">USD</option>
-    <option value="GBP">GBP</option>
-    <option value="INR">INR</option>
-  </select>
-  <br><br>
-  Amount
-  <input type="number" formControlName="amount" id="amount">
-  <br><br>
-  Target CCY
-  <select formControlName="toCurrency" id="toCurrency">
-    <option value="USD">USD</option>
-    <option value="GBP">GBP</option>
-    <option value="INR">INR</option>
-  </select>
-  <br><br>
-  <button type="submit" id="submitButton">Submit</button>
-  <br><br>
-  Output
-  <span id="result">Result: {{ resValue }}</span>
-</form>
+   Source CCY
+   <select formControlName="fromCurrency" id="fromCurrency">
+   
+   <option Value="1.126735">USD</option>
+   <option Value="0.876893">GBP</option>
+   <option Value="79.677056">INR</option>
+   </select>
+    
+   <br>
+   <br>
+   Amount
+   <input type="number" formControlName='amount' id="amount">
+   <br>
+   <br>
+   Target CCY 
+    <select formControlName="toCurrency" id="toCurrency">
+   <option Value="1.126735">USD</option>
+   <option Value="0.876893">GBP</option>
+   <option Value="79.677056">INR</option>
+   </select>
+   <br>
+  <button id="submitButton">Submit</button>
+   <br>
+  <br>
+   Output
+   <span id="result"></span>
+   <span id="resValue">{{resValue}}</span>
+   </form> 
