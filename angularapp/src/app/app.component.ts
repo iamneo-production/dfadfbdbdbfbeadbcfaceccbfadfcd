@@ -1,6 +1,5 @@
-// app.component.ts
 import { Component } from '@angular/core';
-import { FormBuilder } from "@angular/forms";
+import { FormBuilder, FormGroup } from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -9,41 +8,43 @@ import { FormBuilder } from "@angular/forms";
 })
 export class AppComponent {
   resValue: any;
-  fromCurrency: any;
-  toCurrency: any;
-  amount: any;
-
-  constructor(public fb: FormBuilder) { }
-
-  CurrencyForm = this.fb.group({
-    fromCurrency: [''],
-    amount: [''],
-    toCurrency: ['']
-  });
-
-  exchangeRates: { [key: string]: number } = {
+  fromCurrency!: string; // Marked as initialized
+  toCurrency!: string;   // Marked as initialized
+  amount!: number;       // Marked as initialized
+  exchangeRates: { [currency: string]: number } = {
     'USD': 1.126735,
     'GBP': 0.876893,
     'INR': 79.677056
   };
 
+  constructor(public fb: FormBuilder) {
+    this.CurrencyForm = this.fb.group({
+      fromCurrency: ['USD'],
+      amount: [''],
+      toCurrency: ['USD']
+    });
+  }
+
+  CurrencyForm: FormGroup;
+
   onSubmitt() {
-    this.amount = this.CurrencyForm.get('amount')?.value;
+    this.amount = +this.CurrencyForm.get('amount')?.value;
     this.fromCurrency = this.CurrencyForm.get('fromCurrency')?.value;
     this.toCurrency = this.CurrencyForm.get('toCurrency')?.value;
 
-    if (this.fromCurrency && this.toCurrency && this.amount) {
-      if (this.fromCurrency === this.toCurrency) {
-        this.resValue = this.amount; // Same currency, no conversion needed
-      } else if (this.exchangeRates[this.fromCurrency] && this.exchangeRates[this.toCurrency]) {
-        const exchangeRateFrom = this.exchangeRates[this.fromCurrency];
-        const exchangeRateTo = this.exchangeRates[this.toCurrency];
-        this.resValue = ((this.amount / exchangeRateFrom) * exchangeRateTo).toFixed(2);
-      } else {
-        this.resValue = "Invalid conversion";
-      }
+    if (this.fromCurrency === 'USD') {
+      this.resValue = (this.amount * this.exchangeRates[this.toCurrency]).toFixed(2);
+    } else if (this.toCurrency === 'USD') {
+      this.resValue = (this.amount / this.exchangeRates[this.fromCurrency]).toFixed(2);
     } else {
-      this.resValue = "Invalid input";
+      const exchangeRateFrom = this.exchangeRates[this.fromCurrency];
+      const exchangeRateTo = this.exchangeRates[this.toCurrency];
+
+      if (exchangeRateFrom !== undefined && exchangeRateTo !== undefined) {
+        this.resValue = ((this.amount * exchangeRateTo) / exchangeRateFrom).toFixed(2);
+      } else {
+        this.resValue = 'Invalid conversion';
+      }
     }
   }
 }
