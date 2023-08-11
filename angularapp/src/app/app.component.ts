@@ -26,9 +26,11 @@ onSubmitt() {
  this.toCurrency=this.CurrencyForm.get('toCurrency')?.value;
  //this.amount=
  //this.resValue='1.00';
- if(this.amount!==null && this.CurrencyForm!==null)
+ if(this.amount!==null && this.CurrencyForm!==null && this.toCurrency!==null){
  this.resValue=(this.toCurrency/this.fromCurrency)*this.amount;
- this.resValue=Math.round(this.resValue);
- this.resValue=parseFloat(this.resValue).toFixed(2);
+ this.resValue=Math.round(this.resValue*100)/100;
+ //this.resValue=parseFloat(this.resValue).toFixed(2);
+ }
+}
  }
 }
